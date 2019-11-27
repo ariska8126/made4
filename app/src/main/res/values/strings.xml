@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Submission4</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="movies">Movies</string>
+    <string name="tvshow">Tv Show</string>
+    <string name="favourite">Favourite</string>
+    <string name="title_activity_main3">Main3Activity</string>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="144dp"
+    android:layout_gravity="center"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/imgPhotoTv"
+            android:layout_width="114dp"
+            android:layout_height="114dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerCrop"
+            android:src="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Title"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgPhotoTv"
+            app:layout_constraintTop_toTopOf="@+id/imgPhotoTv" />
+
+        <TextView
+            android:id="@+id/tvReleaseTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Release"
+            app:layout_constraintStart_toStartOf="@+id/tvTitleTv"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitleTv" />
+
+        <Button
+            android:id="@+id/btnDetailTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Detail"
+            app:layout_constraintBottom_toBottomOf="@+id/imgPhotoTv"
+            app:layout_constraintStart_toEndOf="@+id/imgPhotoTv" />
+
+        <Button
+            android:id="@+id/btnFavTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/favourite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnDetailTv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
