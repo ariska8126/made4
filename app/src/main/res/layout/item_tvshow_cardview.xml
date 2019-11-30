@@ -23,7 +23,8 @@
             android:src="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/todo" />
 
         <TextView
             android:id="@+id/tvFavTitleMov"
@@ -32,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Title"
+            android:text="@string/title"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgFavPhotoMov"
@@ -42,7 +43,7 @@
             android:id="@+id/tvFavReleaseMov"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Release"
+            android:text="@string/release"
             app:layout_constraintStart_toStartOf="@+id/tvFavTitleMov"
             app:layout_constraintTop_toBottomOf="@+id/tvFavTitleMov" />
 
@@ -51,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Detail"
+            android:text="@string/detail"
             app:layout_constraintBottom_toBottomOf="@+id/imgFavPhotoMov"
             app:layout_constraintStart_toEndOf="@+id/imgFavPhotoMov" />
 
