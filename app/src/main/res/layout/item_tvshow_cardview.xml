@@ -15,7 +15,7 @@
 
 
         <ImageView
-            android:id="@+id/imgFavPhotoTv"
+            android:id="@+id/imgFavPhotoMov"
             android:layout_width="114dp"
             android:layout_height="114dp"
             android:layout_marginStart="8dp"
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvFavTitleTv"
+            android:id="@+id/tvFavTitleMov"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -35,16 +35,16 @@
             android:text="Title"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgFavPhotoTv"
-            app:layout_constraintTop_toTopOf="@+id/imgFavPhotoTv" />
+            app:layout_constraintStart_toEndOf="@+id/imgFavPhotoMov"
+            app:layout_constraintTop_toTopOf="@+id/imgFavPhotoMov" />
 
         <TextView
-            android:id="@+id/tvFavReleaseTv"
+            android:id="@+id/tvFavReleaseMov"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Release"
-            app:layout_constraintStart_toStartOf="@+id/tvFavTitleTv"
-            app:layout_constraintTop_toBottomOf="@+id/tvFavTitleTv" />
+            app:layout_constraintStart_toStartOf="@+id/tvFavTitleMov"
+            app:layout_constraintTop_toBottomOf="@+id/tvFavTitleMov" />
 
         <Button
             android:id="@+id/btnDetailTv"
@@ -52,11 +52,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Detail"
-            app:layout_constraintBottom_toBottomOf="@+id/imgFavPhotoTv"
-            app:layout_constraintStart_toEndOf="@+id/imgFavPhotoTv" />
+            app:layout_constraintBottom_toBottomOf="@+id/imgFavPhotoMov"
+            app:layout_constraintStart_toEndOf="@+id/imgFavPhotoMov" />
 
         <Button
-            android:id="@+id/btnFavDelTv"
+            android:id="@+id/btnFavDelMov"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

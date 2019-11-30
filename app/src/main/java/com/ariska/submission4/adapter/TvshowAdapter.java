@@ -63,15 +63,14 @@ public class TvshowAdapter extends RecyclerView.Adapter<TvshowAdapter.MyViewHold
         //save to SQLite
         SQLiteDatabase mDatabase;
 
-
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvRelease = itemView.findViewById(R.id.tvFavReleaseTv);
-            tvTitle = itemView.findViewById(R.id.tvFavTitleTv);
-            imgPhoto = itemView.findViewById(R.id.imgFavPhotoTv);
+            tvRelease = itemView.findViewById(R.id.tvFavReleaseMov);
+            tvTitle = itemView.findViewById(R.id.tvFavTitleMov);
+            imgPhoto = itemView.findViewById(R.id.imgFavPhotoMov);
             btnDetail = itemView.findViewById(R.id.btnDetailTv);
-            btnFav = itemView.findViewById(R.id.btnFavDelTv);
+            btnFav = itemView.findViewById(R.id.btnFavDelMov);
         }
 
         public void bind(final Tvshow tvshow) {
@@ -91,14 +90,13 @@ public class TvshowAdapter extends RecyclerView.Adapter<TvshowAdapter.MyViewHold
             btnFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("new tv fav: "+tvshow.getId()+", "+tvshow.getTitle()+", "+tvshow.getRelease()+", "+posterTvUrl);
 
                     ContentValues cvTv =new ContentValues();
                     cvTv.put(TvshowContract.FavTvshowEntry.COLUMN_TITLE, title);
                     cvTv.put(TvshowContract.FavTvshowEntry.COLUMN_PHOTO, posterTvUrl);
 
                     mDatabase.insert(TvshowContract.FavTvshowEntry.TABLE_NAME, null, cvTv);
-                    Toast.makeText(itemView.getContext(), "Berhasil", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "Added Favourite", Toast.LENGTH_SHORT).show();
                 }
             });
 

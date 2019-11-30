@@ -3,14 +3,15 @@ package com.ariska.submission4.fragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariska.submission4.R;
 import com.ariska.submission4.adapter.FavTvshowAdapter;
@@ -21,9 +22,8 @@ import com.ariska.submission4.database.TvshowDBHelper;
 public class FavTvShowFragment extends Fragment {
 
     private SQLiteDatabase tvDatabase;
-
     private FavTvshowAdapter adapter;
-
+    private RecyclerView recyclerView;
     public FavTvShowFragment() {
         // Required empty public constructor
     }
@@ -39,16 +39,33 @@ public class FavTvShowFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fav_tv_show, container, false);
+        recyclerView = view.findViewById(R.id.rvFavTvshow);
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setupView();
+    }
+
+    private void setupView() {
         TvshowDBHelper tvshowDBHelper = new TvshowDBHelper(getContext());
         tvDatabase = tvshowDBHelper.getWritableDatabase();
-
-        RecyclerView recyclerView = view.findViewById(R.id.rvFavTvshow);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new FavTvshowAdapter(getContext(), getAllTvItems());
+        adapter = new FavTvshowAdapter(getContext(),getAllTvItems());
         recyclerView.setAdapter(adapter);
 
-        return view;
+        adapter.setOnDeleteClickListener(new FavTvshowAdapter.OnDeleteClickListener() {
+            @Override
+            public void onDelete(long id) {
+
+                tvDatabase.delete(TvshowContract.FavTvshowEntry.TABLE_NAME,
+                        TvshowContract.FavTvshowEntry._ID+" = "+id, null);
+                adapter.swapCursor(getAllTvItems());
+            }
+        });
     }
 
     private Cursor getAllTvItems() {
@@ -56,6 +73,4 @@ public class FavTvShowFragment extends Fragment {
                 null, null, null, null, null,
                 null);
     }
-
-
 }

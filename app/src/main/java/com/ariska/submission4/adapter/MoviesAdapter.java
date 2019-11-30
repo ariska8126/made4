@@ -1,5 +1,7 @@
 package com.ariska.submission4.adapter;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariska.submission4.R;
+import com.ariska.submission4.database.MovieContract;
+import com.ariska.submission4.database.MovieDBHelper;
 import com.ariska.submission4.model.Movie;
 import com.bumptech.glide.Glide;
 
@@ -56,8 +60,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         private ImageView imgPhoto;
         private Button btnDetail, btnFav;
 
+        //save to SQLite
+        SQLiteDatabase movDatabase;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
             tvRelease = itemView.findViewById(R.id.tvMovieRelease);
             tvTitle = itemView.findViewById(R.id.tvMovieTitle);
             imgPhoto = itemView.findViewById(R.id.imgMoviePhoto);
@@ -66,16 +74,29 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         }
 
         public void bind(final Movie movie) {
-            String posterMovieUrl = "https://image.tmdb.org/t/p/original"+movie.getPoster_path();
+
+            final String posterMovieUrl = "https://image.tmdb.org/t/p/original"+movie.getPoster_path();
+
+            Glide.with(itemView.getContext()).load(posterMovieUrl).into(imgPhoto);
+
             tvTitle.setText(movie.getTitle());
             tvRelease.setText(movie.getRelease_date());
 
-            Glide.with(itemView.getContext()).load(posterMovieUrl).into(imgPhoto);
+            final String title = movie.getTitle();
+
+            MovieDBHelper movieDBHelper = new MovieDBHelper(itemView.getContext());
+            movDatabase = movieDBHelper.getWritableDatabase();
 
             btnFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(itemView.getContext(), "Favourite", Toast.LENGTH_SHORT).show();
+
+                    ContentValues cvMv = new ContentValues();
+                    cvMv.put(MovieContract.MovieEntry.COLUMN_TITLE, title);
+                    cvMv.put(MovieContract.MovieEntry.COLUMN_PHOTO, posterMovieUrl);
+                    movDatabase.insert(MovieContract.MovieEntry.TABLE_NAME, null,cvMv);
+
+                    Toast.makeText(itemView.getContext(), "Added Favourite", Toast.LENGTH_SHORT).show();
                 }
             });
 
