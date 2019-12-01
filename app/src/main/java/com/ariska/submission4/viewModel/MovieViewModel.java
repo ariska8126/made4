@@ -1,7 +1,9 @@
 package com.ariska.submission4.viewModel;
 
+import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.StringRes;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -58,6 +60,44 @@ public class MovieViewModel extends ViewModel {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.d("in failure", error.getMessage());
+                listMovie.setValue(listItems);
+            }
+        });
+    }
+
+    //search movie
+    public void searchMovie(Context context, String query){
+        AsyncHttpClient client = new AsyncHttpClient();
+        final ArrayList<Movie> listItems = new ArrayList<>();
+        String url = "https://api.themoviedb.org/3/search/movie?api_key="+API_KEY+"&language=en-US&query="+query;
+
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String result = new String(responseBody);
+                    JSONObject movieObject = new JSONObject(result);
+                    JSONArray list = movieObject.getJSONArray("results");
+
+                    for (int i=0; i<list.length(); i++){
+                        JSONObject movie = list.getJSONObject(i);
+                        Movie movieModel = new Movie();
+
+                        movieModel.setTitle(movie.getString("title"));
+                        movieModel.setRelease_date(movie.getString("release_date"));
+                        movieModel.setPoster_path(movie.getString("poster_path"));
+                        movieModel.setId(movie.getString("id"));
+                        listItems.add(movieModel);
+                    }
+                    listMovie.setValue(listItems);
+                }catch (Exception e){
+                    Log.d("search movie eror: ", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.d("on failure: ", error.getMessage());
                 listMovie.setValue(listItems);
             }
         });

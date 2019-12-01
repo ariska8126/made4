@@ -15,4 +15,5 @@
     <string name="delete">Hapus</string>
     <string name="detail">Rincian</string>
     <string name="change_language_settings">Ubah Pengaturan Bahasa</string>
+    <string name="search">Cari</string>
 </resources>

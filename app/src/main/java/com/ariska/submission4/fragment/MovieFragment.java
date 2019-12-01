@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,8 @@ public class MovieFragment extends Fragment {
     private MoviesAdapter moviesAdapter = new MoviesAdapter();
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
+    private Button btnCari;
+    private EditText edtCari;
 
     public MovieFragment() {
         // Required empty public constructor
@@ -48,6 +52,8 @@ public class MovieFragment extends Fragment {
 
         progressBar = view.findViewById(R.id.pbMovie);
         recyclerView = view.findViewById(R.id.rvMovie);
+        btnCari = view.findViewById(R.id.btnSearchMov);
+        edtCari = view.findViewById(R.id.edtSearchMovie);
         return view;
     }
 
@@ -60,6 +66,21 @@ public class MovieFragment extends Fragment {
         observeListMovieLiveData();
         movieViewModel.fetchListMovie();
         showLoading(true);
+
+        btnCari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLoading(true);
+                String query = edtCari.getText().toString().trim();
+
+                if (query.length() > 0){
+                    movieViewModel.searchMovie(getContext(), query);
+                }else{
+                    movieViewModel.fetchListMovie();
+                }
+
+            }
+        });
     }
 
     private void setupView() {
