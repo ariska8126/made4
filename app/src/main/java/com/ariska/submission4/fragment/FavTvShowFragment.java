@@ -18,16 +18,15 @@ import com.ariska.submission4.adapter.FavTvshowAdapter;
 import com.ariska.submission4.database.TvshowContract;
 import com.ariska.submission4.database.TvshowDBHelper;
 
-
 public class FavTvShowFragment extends Fragment {
 
     private SQLiteDatabase tvDatabase;
     private FavTvshowAdapter adapter;
     private RecyclerView recyclerView;
+
     public FavTvShowFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,10 +58,10 @@ public class FavTvShowFragment extends Fragment {
 
         adapter.setOnDeleteClickListener(new FavTvshowAdapter.OnDeleteClickListener() {
             @Override
-            public void onDelete(long id) {
+            public void onDelete(String id) {
 
                 tvDatabase.delete(TvshowContract.FavTvshowEntry.TABLE_NAME,
-                        TvshowContract.FavTvshowEntry._ID+" = "+id, null);
+                        TvshowContract.FavTvshowEntry.COLUMN_IMDB+" = "+id, null);
                 adapter.swapCursor(getAllTvItems());
             }
         });

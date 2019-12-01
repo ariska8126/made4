@@ -58,10 +58,10 @@ public class FavMovieFragment extends Fragment {
 
         movAdapter.setOnDeleteMovClickListener(new FavMovieAdapter.OnDeleteMovClickListener() {
             @Override
-            public void onDeleteMov(long id) {
+            public void onDeleteMov(String id) {
 
                 movDatabase.delete(MovieContract.MovieEntry.TABLE_NAME,
-                        MovieContract.MovieEntry._ID+" = "+id, null);
+                        MovieContract.MovieEntry.COLUMN_IMDB+" = "+id, null);
                 movAdapter.swapCursor(getAllMovieItems());
             }
         });

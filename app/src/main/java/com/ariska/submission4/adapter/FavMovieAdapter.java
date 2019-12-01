@@ -54,7 +54,7 @@ public class FavMovieAdapter extends RecyclerView.Adapter<FavMovieAdapter.MovieH
 
         String title = movCursor.getString(movCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_TITLE));
         String photo = movCursor.getString(movCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_PHOTO));
-        final long id = movCursor.getLong(movCursor.getColumnIndex(MovieContract.MovieEntry._ID));
+        final String id = movCursor.getString(movCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IMDB));
         holder.tvTitle.setText(title);
         Glide.with(movContext).load(photo).into(holder.imgFavMov);
 
@@ -102,6 +102,6 @@ public class FavMovieAdapter extends RecyclerView.Adapter<FavMovieAdapter.MovieH
     }
 
     public interface OnDeleteMovClickListener{
-        void onDeleteMov(long id);
+        void onDeleteMov(String id);
     }
 }

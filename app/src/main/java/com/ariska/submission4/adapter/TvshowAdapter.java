@@ -2,6 +2,7 @@ package com.ariska.submission4.adapter;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariska.submission4.R;
-import com.ariska.submission4.database.TvshowContract;
 import com.ariska.submission4.database.TvshowDBHelper;
 import com.ariska.submission4.model.Tvshow;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+
+import static com.ariska.submission4.database.TvshowContract.FavTvshowEntry.*;
 
 public class TvshowAdapter extends RecyclerView.Adapter<TvshowAdapter.MyViewHolder> {
 
@@ -83,6 +85,7 @@ public class TvshowAdapter extends RecyclerView.Adapter<TvshowAdapter.MyViewHold
             tvRelease.setText(tvshow.getRelease());
 
             final String title = tvshow.getTitle();
+            final String imdb = tvshow.getId();
 
             TvshowDBHelper tvshowDBHelper = new TvshowDBHelper(itemView.getContext());
             mDatabase = tvshowDBHelper.getWritableDatabase();
@@ -91,12 +94,19 @@ public class TvshowAdapter extends RecyclerView.Adapter<TvshowAdapter.MyViewHold
                 @Override
                 public void onClick(View view) {
 
-                    ContentValues cvTv =new ContentValues();
-                    cvTv.put(TvshowContract.FavTvshowEntry.COLUMN_TITLE, title);
-                    cvTv.put(TvshowContract.FavTvshowEntry.COLUMN_PHOTO, posterTvUrl);
+                    try{
 
-                    mDatabase.insert(TvshowContract.FavTvshowEntry.TABLE_NAME, null, cvTv);
-                    Toast.makeText(itemView.getContext(), "Added Favourite", Toast.LENGTH_SHORT).show();
+                        ContentValues cvTv =new ContentValues();
+                        cvTv.put(COLUMN_TITLE, title);
+                        cvTv.put(COLUMN_IMDB, imdb);
+                        cvTv.put(COLUMN_PHOTO, posterTvUrl);
+
+                        mDatabase.insert(TABLE_NAME, null, cvTv);
+                        Toast.makeText(itemView.getContext(), "Added Favourite", Toast.LENGTH_SHORT).show();
+
+                    }catch (Exception e){
+                        Log.d("Eror: ", e.getMessage());
+                    }
                 }
             });
 

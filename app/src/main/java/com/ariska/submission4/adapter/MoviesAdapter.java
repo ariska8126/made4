@@ -2,6 +2,7 @@ package com.ariska.submission4.adapter;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,26 +15,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariska.submission4.R;
-import com.ariska.submission4.database.MovieContract;
 import com.ariska.submission4.database.MovieDBHelper;
 import com.ariska.submission4.model.Movie;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import static com.ariska.submission4.database.MovieContract.MovieEntry.*;
+
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
 
     private ArrayList<Movie> mData = new ArrayList<>();
     private OnclickListener onclickListener;
 
-    public void setOnclickListener(OnclickListener onclickListener) {
-        this.onclickListener = onclickListener;
+    public void setmData(ArrayList<Movie> items){
+        mData.clear();
+        mData.addAll(items);
+        notifyDataSetChanged();
     }
 
-    public void setmData(ArrayList<Movie> items){
-            mData.clear();
-            mData.addAll(items);
-            notifyDataSetChanged();
+    public void setOnclickListener(OnclickListener onclickListener) {
+        this.onclickListener = onclickListener;
     }
 
     @NonNull
@@ -83,6 +85,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             tvRelease.setText(movie.getRelease_date());
 
             final String title = movie.getTitle();
+            final String imdb = movie.getId();
 
             MovieDBHelper movieDBHelper = new MovieDBHelper(itemView.getContext());
             movDatabase = movieDBHelper.getWritableDatabase();
@@ -91,12 +94,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
                 @Override
                 public void onClick(View view) {
 
-                    ContentValues cvMv = new ContentValues();
-                    cvMv.put(MovieContract.MovieEntry.COLUMN_TITLE, title);
-                    cvMv.put(MovieContract.MovieEntry.COLUMN_PHOTO, posterMovieUrl);
-                    movDatabase.insert(MovieContract.MovieEntry.TABLE_NAME, null,cvMv);
+                    try {
 
-                    Toast.makeText(itemView.getContext(), "Added Favourite", Toast.LENGTH_SHORT).show();
+                        ContentValues cvMv = new ContentValues();
+                        cvMv.put(COLUMN_TITLE, title);
+                        cvMv.put(COLUMN_IMDB, imdb);
+                        cvMv.put(COLUMN_PHOTO, posterMovieUrl);
+
+                        movDatabase.insert(TABLE_NAME, null,cvMv);
+                        Toast.makeText(itemView.getContext(), "Added Favourite", Toast.LENGTH_SHORT).show();
+
+                    }catch (Exception e){
+                        Log.d("Eror: ", e.getMessage());
+                    }
                 }
             });
 

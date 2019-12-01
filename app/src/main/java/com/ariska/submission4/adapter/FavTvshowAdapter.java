@@ -26,16 +26,53 @@ public class FavTvshowAdapter extends RecyclerView.Adapter<FavTvshowAdapter.View
 
     SQLiteDatabase mDdatabase;
 
-    //ondelete
     private OnDeleteClickListener onDeleteClickListener;
+
+    public FavTvshowAdapter(Context context, Cursor cursor) {
+        this.mContext = context;
+        this.mCursor = cursor;
+    }
 
     public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener;
     }
 
-    public FavTvshowAdapter(Context context, Cursor cursor) {
-        this.mContext = context;
-        this.mCursor = cursor;
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View view = inflater.inflate(R.layout.item_favtvshow_cardview, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (!mCursor.moveToPosition(position)){
+            return;
+        }
+
+        String title = mCursor.getString(mCursor.getColumnIndex(TvshowContract.FavTvshowEntry.COLUMN_TITLE));
+        String poster = mCursor.getString(mCursor.getColumnIndex(TvshowContract.FavTvshowEntry.COLUMN_PHOTO));
+        final String id = mCursor.getString(mCursor.getColumnIndex(TvshowContract.FavTvshowEntry.COLUMN_IMDB));
+        holder.tvTitle.setText(title);
+        Glide.with(mContext).load(poster).into(holder.imgPhotoTvFav);
+
+        TvshowDBHelper tvshowDBHelper = new TvshowDBHelper(mContext);
+        mDdatabase = tvshowDBHelper.getWritableDatabase();
+
+        holder.btnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onDeleteClickListener.onDelete(id);
+                Toast.makeText(mContext, "Deleted "+id, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return mCursor.getCount();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,46 +91,6 @@ public class FavTvshowAdapter extends RecyclerView.Adapter<FavTvshowAdapter.View
         }
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.item_favtvshow_cardview, parent, false);
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (!mCursor.moveToPosition(position)){
-            return;
-        }
-
-        String title = mCursor.getString(mCursor.getColumnIndex(TvshowContract.FavTvshowEntry.COLUMN_TITLE));
-        String poster = mCursor.getString(mCursor.getColumnIndex(TvshowContract.FavTvshowEntry.COLUMN_PHOTO));
-        final long id = mCursor.getLong(mCursor.getColumnIndex(TvshowContract.FavTvshowEntry._ID));
-        holder.tvTitle.setText(title);
-        Glide.with(mContext).load(poster).into(holder.imgPhotoTvFav);
-        //hapus
-        TvshowDBHelper tvshowDBHelper = new TvshowDBHelper(mContext);
-        mDdatabase = tvshowDBHelper.getWritableDatabase();
-
-        holder.btnDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onDeleteClickListener.onDelete(id);
-                Toast.makeText(mContext, "Deleted "+id, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mCursor.getCount();
-    }
-
     public void swapCursor(Cursor newCursor){
         if (mCursor != null){
             mCursor.close();
@@ -105,7 +102,6 @@ public class FavTvshowAdapter extends RecyclerView.Adapter<FavTvshowAdapter.View
         }
     }
     public interface OnDeleteClickListener{
-        void onDelete(long id);
+        void onDelete(String id);
     }
-
 }

@@ -21,8 +21,8 @@ public class TvshowDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_TABLE_TVSHOW = "CREATE TABLE " +
                 FavTvshowEntry.TABLE_NAME+" ("+
-                FavTvshowEntry._ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 FavTvshowEntry.COLUMN_TITLE+" TEXT NOT NULL, "+
+                FavTvshowEntry.COLUMN_IMDB+" TEXT NOT NULL PRIMARY KEY, "+
                 FavTvshowEntry.COLUMN_PHOTO+" TEXT NOT NULL "+")";
 
         db.execSQL(SQL_CREATE_TABLE_TVSHOW);
